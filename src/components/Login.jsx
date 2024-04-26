@@ -2,16 +2,12 @@ import React, { useState } from 'react'
 import './Login.css'
 import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase.js'
-import { useDispatch } from 'react-redux';
-import { login } from '../features/user/userSlice.js';
 
 function Login() {
-  // const auth = getAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [profilePic, setProfilePic] = useState("");
-  const dispatch = useDispatch();
 
   const loginToApp = (e) => {
     e.preventDefault();
@@ -19,15 +15,6 @@ function Login() {
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in 
-      const user = userCredential.user;
-      dispatch(
-        login({
-          email: user.email,
-          uid: user.uid,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
-        })
-      );
     })
     .catch((error) => {
       alert(error.message);

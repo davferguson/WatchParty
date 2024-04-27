@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import './Chat.css'
 import YouTube from 'react-youtube'
 import YoutubeService from '../services/YoutubeService'
+// import { db } from '../firebase.js'
+// import { collection, query, doc, onSnapshot } from "firebase/firestore";
 
 function Chat() {
   const [videos, setVideos] = useState([]);
@@ -12,6 +14,19 @@ function Chat() {
     e.preventDefault();
     setCurVideoId(videoId);
   }
+
+//   const unsub = onSnapshot(doc(db, "groups", "dareds-group"), (doc) => {
+//     console.log("Current data: ", doc.data());
+//   });
+
+//   const q = query(collection(db, "groups/dareds-group/posts"));
+//   const unsubscribe = onSnapshot(q, (querySnapshot) => {
+//     const posts = [];
+//     querySnapshot.forEach((doc) => {
+//       posts.push(doc.data().msg);
+//     });
+//     console.log("Messages: ", posts.join(", "));
+//   });
 
   async function findVideos() {
     try{

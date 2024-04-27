@@ -1,22 +1,16 @@
 import React, { useEffect } from 'react';
 import './App.css';
 import Login from './components/Login';
+import Sidebar from './components/Sidebar';
+import Chat from './components/Chat';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser, login, logout } from './features/user/userSlice';
 import { auth } from './firebase.js'
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 
 function App() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-
-  const logoutOfApp = () => {
-    signOut(auth).then(() => {
-      // Sign-out successful.
-    }).catch((error) => {
-      alert(error.message);
-    });
-  }
 
   useEffect(() => {
     onAuthStateChanged(auth, (curUser) => {
@@ -40,8 +34,8 @@ function App() {
       {/* if no user, render login page */}
       {!user ? <Login /> : (
         <div className="app__body">
-          <h1>Welcome, {user.displayName}</h1>
-          <button onClick={logoutOfApp}>Logout</button>
+          <Sidebar />
+          <Chat />
         </div>
       )}
     </div>

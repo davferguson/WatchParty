@@ -4,12 +4,14 @@ import YouTube from 'react-youtube'
 import YoutubeService from '../services/YoutubeService'
 import { db } from '../firebase.js'
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { selectUser } from '../features/user/userSlice.js'
+import { updateGroup } from '../features/firestore/groupSlice.js'
 // import { collection, query, doc, onSnapshot } from "firebase/firestore";
 
 function Chat() {
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
   const groupDbRef = doc(db, "groups", "dareds-group");
 
   const [videos, setVideos] = useState([]);
@@ -50,6 +52,13 @@ function Chat() {
     });
   };
 
+  const updateOnlineStatus = async (isOnline) => {
+    const field = "members." + user.displayName;
+    await updateDoc(groupDbRef, {
+      [field]: isOnline
+    });
+  }
+
 //   const q = query(collection(db, "groups/dareds-group/posts"));
 //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
 //     const posts = [];
@@ -59,13 +68,17 @@ function Chat() {
 //     console.log("Messages: ", posts.join(", "));
 //   });
 
+// auto update group database
   useEffect(() => {
     const unsub = onSnapshot(doc(db, "groups", "dareds-group"), (doc) => {
       console.log("Data Changed:", doc.data());
+      // updateOnlineStatus(true);
+      dispatch(updateGroup(doc.data()));
       setGroupData(doc.data());
     });
     return () => {
       onPauseHandler();
+      // updateOnlineStatus(false);
       unsub();
     }
   }, []);

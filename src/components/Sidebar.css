@@ -3,3 +3,11 @@
     background-color: #303136;
     height: 100vh;
 }
+
+.online {
+    color: green;
+}
+
+.offline {
+    color: red;
+}

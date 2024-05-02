@@ -1,0 +1,8 @@
+.home__page {
+  display: flex;
+  /* margin-top: 22px; */
+  width: 100%;
+  /* max-width: 700px; */
+  /* height: 100vh; */
+  color: white;
+}

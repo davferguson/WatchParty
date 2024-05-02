@@ -2,19 +2,30 @@ import React, { useState } from 'react'
 import './Login.css'
 import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase.js'
+import { useDispatch } from 'react-redux';
+import { login } from '../features/user/userSlice.js';
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [profilePic, setProfilePic] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const loginToApp = (e) => {
     e.preventDefault();
 
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      // Signed in 
+      dispatch(login({
+        email: userCredential.user.email,
+        uid: userCredential.user.uid,
+        displayName: userCredential.user.displayName,
+        photoURL: userCredential.user.photoURL,
+      }));
+      navigate("/home")
     })
     .catch((error) => {
       alert(error.message);

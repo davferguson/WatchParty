@@ -2,17 +2,22 @@ import React from 'react'
 import './Sidebar.css'
 import { signOut } from "firebase/auth";
 import { auth } from '../firebase.js'
-import { useSelector } from 'react-redux';
-import { selectUser } from '../features/user/userSlice.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, selectUser } from '../features/user/userSlice.js';
 import { selectGroup } from '../features/firestore/groupSlice.js';
+import { useNavigate } from 'react-router-dom';
 
 function Sidebar() {
   const user = useSelector(selectUser);
   const group = useSelector(selectGroup);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
     const logoutOfApp = () => {
         signOut(auth).then(() => {
           // Sign-out successful.
+          dispatch(logout());
+          navigate("/", { replace: true });
         }).catch((error) => {
           alert(error.message);
         });

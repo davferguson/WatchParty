@@ -25,7 +25,7 @@ function Login() {
         displayName: userCredential.user.displayName,
         photoURL: userCredential.user.photoURL,
       }));
-      navigate("/home")
+      navigate("/")
     })
     .catch((error) => {
       alert(error.message);

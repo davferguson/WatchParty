@@ -6,7 +6,7 @@ import { Navigate } from "react-router-dom";
 function ProtectedRoute({ children }) {
   const user = useSelector(selectUser);
   if(!user) {
-    return <Navigate to="/" />;
+    return <Navigate to="/login" />;
   }
   return children;
 }
